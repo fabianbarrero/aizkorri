@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aizkorri Astorga | Gastrobar & Terraza</title>
+    <meta name="description" content="Bar Restaurante Aizkorri en Astorga. La mejor terraza en Plaza España. Tapas, raciones y cocina moderna. Reserva ahora.">
+    
+    <!-- Fuentes Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- VARIABLES Y CONFIGURACIÓN --- */
+        :root {
+            --primary: #C0392B;        /* Rojo Aizkorri */
+            --primary-dark: #922b21;
+            --bg-dark: #121212;        /* Fondo principal */
+            --bg-card: rgba(30, 30, 30, 0.7); /* Vidrio oscuro */
+            --text-main: #f0f0f0;
+            --text-muted: #a0a0a0;
+            --gold: #d4af37;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+            --font-title: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 5px; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(#1f1f1f 1px, transparent 1px);
+            background-size: 20px 20px; /* Sutil textura de puntos */
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* --- CLASES DE UTILIDAD PARA ANIMACIONES --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- HEADER & NAV (GLASSMORPHISM) --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: var(--glass-border);
+            transition: 0.3s;
+        }
+
+        .logo {
+            font-family: var(--font-title);
+            font-weight: 900;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        .logo span { color: var(--primary); }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 2px;
+            bottom: -5px; left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after { width: 100%; }
+
+        /* Botón Header */
+        .btn-header {
+            padding: 10px 25px;
+            border: 2px solid var(--primary);
+            color: #fff;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            display: none;
+        }
+        .btn-header:hover { background: var(--primary); }
+        
+        @media (min-width: 768px) { .btn-header { display: block; } }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), var(--bg-dark)), 
+                        url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Efecto Parallax */
+        }
+
+        .hero-content {
+            padding: 20px;
+            max-width: 800px;
+            z-index: 2;
+        }
+
+        .tagline {
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .hero h1 {
+            font-family: var(--font-title);
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #ddd;
+            margin-bottom: 40px;
+        }
+
+        .btn-main {
+            padding: 15px 40px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(192, 57, 43, 0.3);
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-main:hover {
+            transform: translateY(-5px);
+            background: var(--primary-dark);
+            box-shadow: 0 15px 30px rgba(192, 57, 43, 0.4);
+        }
+
+        /* --- SECCIONES COMUNES --- */
+        section { padding: 100px 20px; }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-family: var(--font-title);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .separator {
+            width: 80px; height: 3px;
+            background: var(--primary);
+            margin: 0 auto;
+        }
+
+        /* --- SOBRE NOSOTROS (GRID ASIMÉTRICO) --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .about-images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .about-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: 0.3s;
+        }
+        .about-img:hover { transform: scale(1.02); }
+        .about-img.large { grid-column: span 2; height: 300px; }
+
+        @media (min-width: 992px) {
+            .about-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* --- CARTA / PLATOS (TARJETAS MODERNAS) --- */
+        .menu-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.4s;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .card-img-wrap {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .card:hover .card-img-wrap img { transform: scale(1.1); }
+
+        .price-tag {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: var(--primary);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .card-content { padding: 25px; }
+        
+        .card h3 {
+            font-family: var(--font-title);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .card p { color: var(--text-muted); font-size: 0.95rem; }
+
+        /* --- TESTIMONIOS --- */
+        .testimonials {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            text-align: center;
+        }
+
+        .testimonial-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.6);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stars { color: var(--gold); margin-bottom: 15px; }
+        .quote { font-style: italic; font-size: 1.1rem; margin-bottom: 20px; }
+        .author { font-weight: 700; color: var(--primary); }
+
+        /* --- CONTACTO --- */
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .contact-details { flex: 1 1 300px; }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .icon-box {
+            width: 50px; height: 50px;
+            background: rgba(192, 57, 43, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1.2rem;
+        }
+
+        .map-box {
+            flex: 1 1 300px;
+            min-height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            /* Estilos base para el contenedor del mapa */
+        }
+
+        /* Estilos específicos para el Iframe del mapa (Dark Mode) */
+        .map-box iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            /* Filtro mágico para mapa oscuro:
+               grayscale: quita el color.
+               invert: invierte blanco a negro (modo oscuro).
+               contrast: ajusta para que no sea gris plano. */
+            filter: grayscale(100%) invert(92%) contrast(83%);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #0a0a0a;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid #222;
+        }
+        
+        .social-links a {
+            color: #fff;
+            margin: 0 10px;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+        .social-links a:hover { color: var(--primary); }
+
+        /* --- BOTONES FLOTANTES MÓVILES --- */
+        .floating-actions {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 2000;
+        }
+
+        .float-btn {
+            width: 55px; height: 55px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-size: 22px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            transition: transform 0.3s;
+        }
+        
+        .float-btn:hover { transform: scale(1.1); }
+        .btn-whatsapp { background-color: #25d366; }
+        .btn-call { background-color: var(--primary); }
+
+        /* --- MOBILE MENU --- */
+        .mobile-toggle {
+            display: none;
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            nav ul {
+                position: fixed;
+                top: 0; right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: #1a1a1a;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: 0.4s;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            }
+            nav ul.active { right: 0; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header id="header">
+        <div class="logo">Aizkorri <span>Astorga</span></div>
+        <div class="mobile-toggle" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="#inicio" onclick="toggleMenu()">Inicio</a></li>
+                <li><a href="#nosotros" onclick="toggleMenu()">Concepto</a></li>
+                <li><a href="#carta" onclick="toggleMenu()">Carta</a></li>
+                <li><a href="#contacto" onclick="toggleMenu()">Reservas</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+34987618611" class="btn-header">RESERVAR</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content reveal">
+            <span class="tagline">Plaza de España, Astorga</span>
+            <h1>GASTRONOMÍA<br>CON CARÁCTER</h1>
+            <p>La terraza donde el tapeo leonés se encuentra con la cocina de autor.</p>
+            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <a href="#carta" class="btn-main">
+                    <i class="fas fa-utensils"></i> Ver Carta
+                </a>
+                <a href="https://wa.me/34987618611" class="btn-main" style="background: transparent; border: 2px solid white; box-shadow: none;">
+                    <i class="fab fa-whatsapp"></i> Reservar
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nosotros Section -->
+    <section id="nosotros">
+        <div class="section-header reveal">
+            <h2>Nuestra Esencia</h2>
+            <div class="separator"></div>
+        </div>
+        <div class="about-grid">
+            <div class="about-text reveal">
+                <h3>Más que un bar, una experiencia</h3>
+                <p style="margin-bottom: 15px; color: #ccc;">
+                    En pleno corazón de <strong>Astorga</strong>, Aizkorri combina la tradición de la piedra maragata con la innovación en los fogones. Somos ese lugar donde el desayuno se alarga y las cenas se vuelven inolvidables.
+                </p>
+                <p style="color: #ccc;">
+                    Nuestra especialidad no es solo la comida, es el ambiente. Una terraza vibrante en Plaza España donde disfrutar de la mejor selección de vinos de León y tapas elaboradas al momento.
+                </p>
+                <div style="margin-top: 20px; display: flex; gap: 20px;">
+                    <div><i class="fas fa-wine-glass-alt" style="color: var(--primary);"></i> +50 Vinos</div>
+                    <div><i class="fas fa-paw" style="color: var(--primary);"></i> Pet Friendly</div>
+                    <div><i class="fas fa-wifi" style="color: var(--primary);"></i> WiFi Gratis</div>
+                </div>
+            </div>
+            <div class="about-images reveal">
+                <!-- IMAGENES PLACEHOLDER (Reemplazar src) -->
+                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="about-img" alt="Plato">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="about-img" alt="Restaurante Interior">
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="about-img large" alt="Platos Gourmet">
+            </div>
+        </div>
+    </section>
+
+    <!-- Carta Highlights -->
+    <section id="carta" style="background-color: #161616;">
+        <div class="section-header reveal">
+            <h2>Favoritos de la Casa</h2>
+            <div class="separator"></div>
+            <p style="margin-top: 15px; color: #aaa;">Una selección de nuestros platos más demandados</p>
+        </div>
+
+        <div class="menu-cards">
+            <!-- Plato 1 -->
+            <div class="card reveal">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Hamburguesa">
+                    <span class="price-tag">12.50€</span>
+                </div>
+                <div class="card-content">
+                    <h3>Burger Aizkorri</h3>
+                    <p>200g de vacuno mayor, queso de cabra fundido, cebolla caramelizada y nuestra salsa secreta.</p>
+                </div>
+            </div>
+
+            <!-- Plato 2 -->
+            <div class="card reveal">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Pulpo">
+                    <span class="price-tag">18.00€</span>
+                </div>
+                <div class="card-content">
+                    <h3>Pulpo a la Brasa</h3>
+                    <p>Pata de pulpo braseada sobre parmentier de patata trufada y pimentón de la Vera.</p>
+                </div>
+            </div>
+
+            <!-- Plato 3 -->
+            <div class="card reveal">
+                <div class="card-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Cecina">
+                    <span class="price-tag">14.00€</span>
+                </div>
+                <div class="card-content">
+                    <h3>Tabla de León</h3>
+                    <p>Selección de Cecina de Astorga IGP, chorizo picante y queso curado de oveja.</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px;" class="reveal">
+            <a href="#" class="btn-main" style="background: transparent; border: 1px solid var(--primary);">
+                <i class="fas fa-file-pdf"></i> Ver Menú Completo
+            </a>
+        </div>
+    </section>
+
+    <!-- Testimonios (Social Proof) -->
+    <section class="testimonials">
+        <div class="testimonial-box reveal">
+            <div class="stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="quote">"Parada obligatoria en Astorga. El trato fue excelente y la hamburguesa una de las mejores que he probado en León. La terraza en la plaza es un lujo."</p>
+            <p class="author">- Cliente en Google Reviews</p>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto">
+        <div class="section-header reveal">
+            <h2>Contacto y Reservas</h2>
+            <div class="separator"></div>
+        </div>
+        
+        <div class="contact-container reveal">
+            <div class="contact-details">
+                <div class="contact-item">
+                    <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <h4>Ubicación</h4>
+                        <p style="color: #aaa;">Plaza de España, 5<br>24700 Astorga, León</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon-box"><i class="fas fa-phone-alt"></i></div>
+                    <div>
+                        <h4>Teléfono</h4>
+                        <p style="color: #aaa;"><a href="tel:987618611" style="color: inherit; text-decoration: none;">987 61 86 11</a></p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon-box"><i class="far fa-clock"></i></div>
+                    <div>
+                        <h4>Horario</h4>
+                        <p style="color: #aaa;">Lunes - Domingo<br>12:00h - Cierre</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="map-box">
+                <!-- Iframe Google Maps -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2932.616616428743!2d-6.059287684534724!3d42.45525797918092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd3761356f91d84d%3A0xc3b5e4c0c1b0b0b!2sPl.%20Espa%C3%B1a%2C%205%2C%2024700%20Astorga%2C%20Le%C3%B3n!5e0!3m2!1ses!2ses!4v1625680000000!5m2!1ses!2ses" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="logo" style="margin-bottom: 20px; font-size: 1.2rem;">AIZKORRI</div>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-tripadvisor"></i></a>
+        </div>
+        <p style="margin-top: 20px; font-size: 0.8rem; color: #555;">&copy; 2025 Aizkorri.</p>
+    </footer>
+
+    <!-- Botones Flotantes (Móvil) -->
+    <div class="floating-actions">
+        <a href="https://wa.me/34987618611" class="float-btn btn-whatsapp" target="_blank" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="tel:+34987618611" class="float-btn btn-call" aria-label="Llamar">
+            <i class="fas fa-phone"></i>
+        </a>
+    </div>
+
+    <!-- JAVASCRIPT: Lógica y Animaciones -->
+    <script>
+        // 1. Menú Hamburguesa
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+
+        // 2. Efecto de Header al hacer Scroll (Cambia transparencia)
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.style.padding = "10px 5%";
+                header.style.background = "rgba(18, 18, 18, 0.95)";
+            } else {
+                header.style.padding = "15px 5%";
+                header.style.background = "rgba(18, 18, 18, 0.85)";
+            }
+        });
+
+        // 3. ANIMACIONES AL HACER SCROLL (Intersection Observer)
+        // Detecta cuando los elementos entran en pantalla
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Seleccionar todos los elementos con clase 'reveal'
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
